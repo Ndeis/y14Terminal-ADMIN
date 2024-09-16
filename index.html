@@ -1034,13 +1034,13 @@ System Administrator (SYSADM) Yuta Nakamura
 &lt;/div&gt;</tw-passagedata><tw-passagedata pid="13" name="Scuttle" tags="" position="275,1025" size="100,100">&lt;div id=&quot;wrapper&quot;&gt;
     &lt;div class=&quot;glass&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;screen greentheme&quot;&gt;
-       &lt;style&gt;
+        &lt;style&gt;
     #inputField {
         padding: 10px;
         font-size: 16px;
         color: var(--font-color); 
         background-color: var(--screen-backlight); 
-        border: 1px solid var(--font-color);
+        border: 1px solid var(--font-color); 
         border-radius: 4px;
     }
 
@@ -1053,8 +1053,8 @@ System Administrator (SYSADM) Yuta Nakamura
         border-radius: 4px;
         cursor: pointer;
         text-transform: uppercase; 
-        box-shadow: 0 0 5px rgba(0, 255, 0, 0.5); /* Glow */
-        transition: background-color 0.3s, box-shadow 0.3s; /* Transition */
+        box-shadow: 0 0 5px rgba(0, 255, 0, 0.5); 
+        transition: background-color 0.3s, box-shadow 0.3s; 
     }
 
     button:hover {
@@ -1062,105 +1062,107 @@ System Administrator (SYSADM) Yuta Nakamura
         color: var(--screen-backlight); 
         box-shadow: 0 0 10px rgba(0, 255, 0, 1); 
     }
-&lt;/style&gt;
+        &lt;/style&gt;
         &lt;&lt;type 10ms skipkey &quot;Control&quot;&gt;&gt;
-        ```
         &lt;h1&gt;SCUTTLE&lt;/h1&gt;
         ATTENTION! DESTRUCTION OF CORPORATE PROPERTY IS IN VIOLATION OF SUBPOINT 3 OF POINT 27 OF THE COMPANY&#39;S CONTRACT FOR CONDUCTING MINING OPERATIONS AND WILL RESULT IN IMMEDIATE TERMINATION OF THE CONTRACT. ACT ONLY IN CASE OF CRITICAL NECESSITY.
         
-        [THIS WILL START 10 MINUTE COUNTDOWN UNTIL THE START OF THE SCUTTLE. WRITE &quot;BEGIN PROCEDURE&quot; FOR CONFIRMATION. PROCCESS IS IRREVERSIBLE AFTER 5 MINUTES. FOR CANCELLATION WRITE &quot;STOP PROCEDURE&quot;.]
+        [FUSION REACTOR WILL DROP MAGNETIC SHIELDING. CREW WILL HAVE 10 MINUTES TO EVACUATE. INPUT &quot;BEGIN PROCEDURE&quot; FOR CONFIRMATION. PROCCESS IS IRREVERSIBLE AFTER 5 MINUTES. FOR CANCELLATION INPUT &quot;STOP PROCEDURE&quot;.]
         &lt;form id=&quot;commandForm&quot; onsubmit=&quot;return checkInput(event);&quot;&gt;
-            &lt;input type=&quot;text&quot; id=&quot;inputField&quot; placeholder=&quot;Type command...&quot; 
-            required autocomplete=&quot;off&quot;&gt;
+            &lt;input type=&quot;text&quot; id=&quot;inputField&quot; placeholder=&quot;Type command...&quot; required autocomplete=&quot;off&quot;&gt;
             &lt;button type=&quot;submit&quot;&gt;Confirm&lt;/button&gt;
         &lt;/form&gt;
         &lt;p id=&quot;output&quot;&gt;&lt;/p&gt;
         &lt;p id=&quot;countdown&quot; style=&quot;display: none;&quot;&gt;&lt;/p&gt;
-        &lt;p id=&quot;backLink&quot;&gt;&lt;a href=&quot;#&quot;&gt;[[&gt; BACK |Systems]]&lt;/a&gt;&lt;/p&gt;
-                
+        &lt;p id=&quot;backLink&quot;&gt;&lt;a href=&quot;#&quot;&gt;[[&gt;RETURN |Systems]]&lt;/a&gt;&lt;/p&gt;
+        &lt;audio id=&quot;selfDestructAudio&quot; src=&quot;http://soundjax.com/reddo/69997%5EALARM.mp3&quot;&gt; &lt;/audio&gt;
         ```
         &lt;&lt;/type&gt;&gt;
         &lt;script&gt;
-    let countdownInterval;
-    let countdownTime = 600; 
-    let isSelfDestructing = false;
-    let speedMultiplier = 1; 
+            let countdownInterval;
+            let countdownTime = 600; 
+            let isSelfDestructing = false;
+            let speedMultiplier = 1; 
 
-    function startCountdown() {
-        countdownTime = 600; // Reset countdown time
-        document.getElementById(&#39;countdown&#39;).style.display = &#39;block&#39;;
-        countdownInterval = setInterval(() =&gt; {
-            if (countdownTime &gt; 0) {
-                countdownTime -= speedMultiplier; 
-                document.getElementById(&#39;countdown&#39;).innerText = `Time left: ${Math.floor(countdownTime / 60)}:${countdownTime % 60 &lt; 10 ? &#39;0&#39; : &#39;&#39;}${countdownTime % 60}`;
-            } else {
-                clearInterval(countdownInterval);
-                document.getElementById(&#39;output&#39;).innerText = &#39;SCUTTLE PROCEDURE HAS BEEN FINISHED. HAVE A FINE DAY&#39;;
-                document.getElementById(&#39;countdown&#39;).style.display = &#39;none&#39;;
-                document.getElementById(&#39;backLink&#39;).style.display = &#39;none&#39;; /* Hide back link when self-destruct complete */
+            function startCountdown() {
+                countdownTime = 600; 
+                document.getElementById(&#39;countdown&#39;).style.display = &#39;block&#39;;
+                countdownInterval = setInterval(() =&gt; {
+                    if (countdownTime &gt; 0) {
+                        countdownTime -= speedMultiplier; 
+                        document.getElementById(&#39;countdown&#39;).innerText = `Time Remaining: ${Math.floor(countdownTime / 60)}:${countdownTime % 60 &lt; 10 ? &#39;0&#39; : &#39;&#39;}${countdownTime % 60}`;
+                    } else {
+                        clearInterval(countdownInterval);
+                        document.getElementById(&#39;output&#39;).innerText = &#39;SCUTTLE POCEDURE HAS COMPLETED. HAVE A NICE DAY.&#39;;
+                        document.getElementById(&#39;countdown&#39;).style.display = &#39;none&#39;;
+                        document.getElementById(&#39;backLink&#39;).style.display = &#39;none&#39;; 
+                    }
+                }, 1000);
             }
-        }, 1000);
-    }
 
-    function checkInput(event) {
-        event.preventDefault(); /* Prevent form submission */
-        const inputText = document.getElementById(&#39;inputField&#39;).value.trim();
-        const output = document.getElementById(&#39;output&#39;);
+            function checkInput(event) {
+                event.preventDefault(); 
+                const inputText = document.getElementById(&#39;inputField&#39;).value.trim();
+                const output = document.getElementById(&#39;output&#39;);
+                const audio = document.getElementById(&#39;selfDestructAudio&#39;);
 
-        if (inputText === &quot;BEGIN PROCEDURE&quot;) {
-            if (!isSelfDestructing) {
-                isSelfDestructing = true;
-                output.innerText = &#39;SCUTTLE PROCEDURE ACTIVATED&#39;;
-                output.style.color = &#39;red&#39;;
-                startCountdown();
-                document.getElementById(&#39;backLink&#39;).style.display = &#39;none&#39;; /* Hide back link when self-destruct is active */
-            } else {
-                output.innerText = &#39;Scuttle procedure is already active&#39;;
-                output.style.color = &#39;var(--font-color)&#39;;
-            }
-        } else if (inputText === &quot;STOP PROCEDURE&quot;) {
-            if (isSelfDestructing) {
-                if (countdownTime &lt;= 300) {
-                    output.innerText = &#39;PROCEDURE CAN&#39;T BE STOPPED - LESS THAN 5 MINUTES LEFT&#39;;
-                output.style.color = &#39;red&#39;;
+                if (inputText === &quot;BEGIN PROCEDURE&quot;) {
+                    if (!isSelfDestructing) {
+                        isSelfDestructing = true;
+                        output.innerText = &#39;ПРОЦЕДУРА САМОУНИЧТОЖЕНИЯ ЗАПУЩЕНА&#39;;
+                        output.style.color = &#39;red&#39;;
+                        startCountdown();
+                        audio.play(); // Play the audio when self-destruction is activated
+                        document.getElementById(&#39;backLink&#39;).style.display = &#39;none&#39;; 
+                    } else {
+                        output.innerText = &#39;Scuttle procedure is already active&#39;;
+                        output.style.color = &#39;var(--font-color)&#39;;
+                    }
+                } else if (inputText === &quot;STOP PROCEDURE&quot;) {
+                    if (isSelfDestructing) {
+                        if (countdownTime &lt;= 300) { 
+                            output.innerText = &#39;PROCEDURE CANNOT BE STOPPED - FEWER THAN FIVE MINUTES REMAINING&#39;;
+                            output.style.color = &#39;red&#39;;
+                        } else {
+                            clearInterval(countdownInterval);
+                            isSelfDestructing = false;
+                            output.innerText = &#39;Procedure stopped&#39;;
+                            output.style.color = &#39;var(--font-color)&#39;;
+                            document.getElementById(&#39;countdown&#39;).style.display = &#39;none&#39;;
+                            document.getElementById(&#39;backLink&#39;).style.display = &#39;block&#39;; // Show back link when self-destruct is stopped
+                            audio.pause(); 
+            audio.currentTime = 0; // Reset audio to the beginning
+                        }
+                    } else {
+                        output.innerText = &#39;Процедура не активна&#39;;
+                        output.style.color = &#39;var(--font-color)&#39;;
+                    }
+                } else if (inputText === &quot;DEBUG&quot;) {
+                    if (isSelfDestructing) {
+                        if (speedMultiplier === 1) {
+                            speedMultiplier = 10; 
+                            output.innerText = &#39;DEBUG Скорость таймера х10&#39;;
+                        } else {
+                            speedMultiplier = 1; 
+                            output.innerText = &#39;DEBUG Скорость таймера х1&#39;;
+                        }
+                        output.style.color = &#39;var(--font-color)&#39;;
+                    } else {
+                        output.innerText = &#39;Процедура не активна&#39;;
+                        output.style.color = &#39;var(--font-color)&#39;;
+                    }
                 } else {
-                    clearInterval(countdownInterval);
-                    isSelfDestructing = false;
-                    output.innerText = &#39;Procedure stopped&#39;;
+                    output.innerText = &#39;Неверный код доступа&#39;;
                     output.style.color = &#39;var(--font-color)&#39;;
-                    document.getElementById(&#39;countdown&#39;).style.display = &#39;none&#39;;
-                    document.getElementById(&#39;backLink&#39;).style.display = &#39;block&#39;; /* Show back link when self-destruct is stopped */
                 }
-            } else {
-                output.innerText = &#39;Procedure isn&#39;t active&#39;;
-                output.style.color = &#39;var(--font-color)&#39;;
-            }
-        } else if (inputText === &quot;DEBUG&quot;) {
-        if (isSelfDestructing) {
-            if (speedMultiplier === 1) {
-                speedMultiplier = 10; 
-                output.innerText = &#39;DEBUG Timer speed х10&#39;;
-            } else {
-                speedMultiplier = 1; 
-                output.innerText = &#39;DEBUG Timer speed х1&#39;;
-            }
-            output.style.color = &#39;var(--font-color)&#39;;
-            } else {
-                output.innerText = &#39;Procedure isn&#39;t active&#39;;
-                output.style.color = &#39;var(--font-color)&#39;;
-            }
-        } else {
-            output.innerText = &#39;Access code denied&#39;;
-            output.style.color = &#39;var(--font-color)&#39;;
-        }
 
-        /* Clear the input field after checking */
-        document.getElementById(&#39;inputField&#39;).value = &#39;&#39;;
-    }
-&lt;/script&gt;
-
+                // Clear the input field after checking
+                document.getElementById(&#39;inputField&#39;).value = &#39;&#39;;
+            }
+        &lt;/script&gt;
     &lt;/div&gt;
-&lt;/div&gt;</tw-passagedata><tw-passagedata pid="14" name="Settings" tags="" position="350,200" size="100,100">&lt;div id=&quot;wrapper&quot;&gt;
+&lt;/div&gt;
+</tw-passagedata><tw-passagedata pid="14" name="Settings" tags="" position="350,200" size="100,100">&lt;div id=&quot;wrapper&quot;&gt;
     &lt;div class=&quot;glass&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;screen greentheme&quot;&gt;
     
@@ -1772,17 +1774,17 @@ https://blog.carbonfive.com/vintage-terminal-effect-in-css3/</tw-passagedata><tw
     }
         &lt;/style&gt;
         &lt;&lt;type 10ms skipkey &quot;Control&quot;&gt;&gt;
-        &lt;h1&gt;САМОУНИЧТОЖЕНИЕ&lt;/h1&gt;
-        ВНИМАНИЕ! РАЗРУШЕНИЕ КОРПОРАТИВНОЙ СОБСТВЕННОСТИ ПРОТИВОРЕЧИТ ПОДПУНКТУ 3 ПУНКТА 27 ДОГОВОРА КОМПАНИИ ПО ПРОВЕДЕНИЮ ШАХТЁРСКИХ РАБОТ И ПРИВЕДЁТ К МОМЕНТАЛЬНОМУ РАСТОРЖЕНИЮ ДОГОВОРА. ДЕЙСТВОВАТЬ ТОЛЬКО В СЛУЧАЕ КРИТИЧЕСКОЙ НЕОБХОДИМОСТИ.
+        &lt;h1&gt;SCUTTLE&lt;/h1&gt;
+        ATTENTION! DESTRUCTION OF CORPORATE PROPERTY IS IN VIOLATION OF SUBPOINT 3 OF POINT 27 OF THE COMPANY&#39;S CONTRACT FOR CONDUCTING MINING OPERATIONS AND WILL RESULT IN IMMEDIATE TERMINATION OF THE CONTRACT. ACT ONLY IN CASE OF CRITICAL NECESSITY.
         
-        [ЭТО НАЧНЁТ 10-МИНУТНЫЙ ОТСЧЁТ ДО НАЧАЛА ПРОЦЕДУРЫ САМОУНИЧТОЖЕНИЯ. НАПИШИТЕ &quot;НАЧАТЬ ПРОЦЕДУРУ&quot; ДЛЯ ПОДТВЕРЖДЕНИЯ. ПРОЦЕСС НЕОБРАТИМ ПОСЛЕ 5 МИНУТ. ДЛЯ ОТМЕНЫ НАПИШИТЕ &quot;ОСТАНОВИТЬ ПРОЦЕДУРУ&quot;.]
+        [FUSION REACTOR WILL DROP MAGNETIC SHIELDING. CREW WILL HAVE 10 MINUTES TO EVACUATE. INPUT &quot;BEGIN PROCEDURE&quot; FOR CONFIRMATION. PROCCESS IS IRREVERSIBLE AFTER 5 MINUTES. FOR CANCELLATION INPUT &quot;STOP PROCEDURE&quot;.]
         &lt;form id=&quot;commandForm&quot; onsubmit=&quot;return checkInput(event);&quot;&gt;
             &lt;input type=&quot;text&quot; id=&quot;inputField&quot; placeholder=&quot;Введите команду...&quot; required autocomplete=&quot;off&quot;&gt;
             &lt;button type=&quot;submit&quot;&gt;Подтвердить&lt;/button&gt;
         &lt;/form&gt;
         &lt;p id=&quot;output&quot;&gt;&lt;/p&gt;
         &lt;p id=&quot;countdown&quot; style=&quot;display: none;&quot;&gt;&lt;/p&gt;
-        &lt;p id=&quot;backLink&quot;&gt;&lt;a href=&quot;#&quot;&gt;[[&gt; НАЗАД |Systems]]&lt;/a&gt;&lt;/p&gt;
+        &lt;p id=&quot;backLink&quot;&gt;&lt;a href=&quot;#&quot;&gt;[[&gt;RETURN |Systems]]&lt;/a&gt;&lt;/p&gt;
         &lt;audio id=&quot;selfDestructAudio&quot; src=&quot;https://soundjax.com/reddo/79133%5Ebuzzer.mp3&quot; loop&gt;&lt;/audio&gt;
         ```
         &lt;&lt;/type&gt;&gt;
@@ -1842,7 +1844,7 @@ https://blog.carbonfive.com/vintage-terminal-effect-in-css3/</tw-passagedata><tw
             audio.currentTime = 0; // Reset audio to the beginning
                         }
                     } else {
-                        output.innerText = &#39;Процедура не активна&#39;;
+                        output.innerText = &#39;Procedure isn&#39;t active&#39;;
                         output.style.color = &#39;var(--font-color)&#39;;
                     }
                 } else if (inputText === &quot;DEBUG&quot;) {
@@ -1856,7 +1858,7 @@ https://blog.carbonfive.com/vintage-terminal-effect-in-css3/</tw-passagedata><tw
                         }
                         output.style.color = &#39;var(--font-color)&#39;;
                     } else {
-                        output.innerText = &#39;Процедура не активна&#39;;
+                        output.innerText = &#39;Procedure isn&#39;t active&#39;;
                         output.style.color = &#39;var(--font-color)&#39;;
                     }
                 } else {
